@@ -6,7 +6,7 @@ Snow's Upgrade Tooltip provides information about upgrade costs for upgradable i
 
 Heavily based on [AzerPUG's ToolTips](https://www.curseforge.com/wow/addons/azerpugs-tooltips) without covering all the features it provides.
 
-After trying to fix AzerPUG's for 10.0.2 (without success) decided to do a quick alternative to show as little data as needed.
+After trying to fix AzerPUG's for 10.0.2 (without success) decided to do a quick alternative to show as little data as needed. I would suggest to use that one instead once fixed if you have need for the complete features AzerPUG's version offers.
 
 It will color code the "next" and "max" upgrades based on valor availability as well as m+ rating requirements.
 
