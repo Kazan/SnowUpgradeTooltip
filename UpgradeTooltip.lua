@@ -92,7 +92,7 @@ function Addon:dumpTable(table, depth)
   for k,v in pairs(table) do
     if (type(v) == "table") then
       print(string.rep("  ", depth)..k..":")
-      dumpTable(v, depth+1)
+      self:dumpTable(v, depth+1)
     else
       print(string.rep("  ", depth)..k..": ",v)
     end
