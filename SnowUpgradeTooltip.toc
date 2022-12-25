@@ -1,0 +1,8 @@
+## Interface: 100002
+## Title: |cC94ECCFFSnow's|r Upgrade Tooltip
+## Author: Snowshock
+## Notes: Adds upgrade costs for items to their tooltip.
+## Version: DF 1.0.0
+
+UpgradeTooltip.lua
+Data.lua
