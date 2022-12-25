@@ -14,7 +14,7 @@ function Addon:addUpgradeInfo()
     local clipAfter = string.find(ITEM_UPGRADE_TOOLTIP_FORMAT, "%%d") -1
     local searchValue = string.sub(ITEM_UPGRADE_TOOLTIP_FORMAT, 1, clipAfter)
     local ttname = GameTooltip:GetName()
-    local item = GameTooltip:GetItem()
+    local item, itemLink = GameTooltip:GetItem()
 
     for i = 1, GameTooltip:NumLines() do
         local left = _G[ttname .. "TextLeft" .. i]
@@ -26,10 +26,9 @@ function Addon:addUpgradeInfo()
             curLevel = tonumber(curLevel)
             maxLevel = tonumber(maxLevel)
 
-            -- stop processing if item is already at top level
+            -- stop processing if item is already at max level
             if curLevel == maxLevel then return; end
             local nextLevel = curLevel + 1
-
 
             local reqsNext = RequiredRating[nextLevel]
             local reqsMax = RequiredRating[maxLevel]
@@ -38,10 +37,14 @@ function Addon:addUpgradeInfo()
             local itemEquipLoc = select(9, GetItemInfo(item))
             if itemEquipLoc == "" then return; end
 
-            -- TODO: Hack for intelligence Weapons
+            -- Hack for intelligence Weapons
+            local stats = GetItemStats(itemLink)
+            if itemEquipLoc == "INVTYPE_WEAPON" and stats.ITEM_MOD_INTELLECT_SHORT ~= nil then
+                itemEquipLoc = "INVTYPE_WEAPON_INTELLECT"
+            end
+
             local slotCost = UpgradeCosts[itemEquipLoc]
             if slotCost == nil then return; end
-
 
             local totalCost = slotCost.Cost * (maxLevel - curLevel)
 
@@ -79,6 +82,21 @@ end
 
 function Addon:colorize(text, color)
     return string.format("|c%s%s|r", color, text)
+end
+
+function Addon:dumpTable(table, depth)
+  if (depth > 200) then
+    print("Error: Depth > 200 in dumpTable()")
+    return
+  end
+  for k,v in pairs(table) do
+    if (type(v) == "table") then
+      print(string.rep("  ", depth)..k..":")
+      dumpTable(v, depth+1)
+    else
+      print(string.rep("  ", depth)..k..": ",v)
+    end
+  end
 end
 
 Addon:OnLoad()
