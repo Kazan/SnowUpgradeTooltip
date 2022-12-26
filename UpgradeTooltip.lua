@@ -39,7 +39,7 @@ function Addon:addUpgradeInfo(tooltip)
 
             -- Hack for intelligence Weapons
             local stats = GetItemStats(itemLink)
-            if itemEquipLoc == "INVTYPE_WEAPON" and stats.ITEM_MOD_INTELLECT_SHORT ~= nil then
+            if stats ~= nil and itemEquipLoc == "INVTYPE_WEAPON" and stats.ITEM_MOD_INTELLECT_SHORT ~= nil then
                 itemEquipLoc = "INVTYPE_WEAPON_INTELLECT"
             end
 
@@ -82,21 +82,6 @@ end
 
 function Addon:colorize(text, color)
     return string.format("|c%s%s|r", color, text)
-end
-
-function Addon:dumpTable(table, depth)
-    if (depth > 200) then
-        print("Error: Depth > 200 in dumpTable()")
-        return
-    end
-    for k,v in pairs(table) do
-        if (type(v) == "table") then
-            print(string.rep("  ", depth)..k..":")
-            self:dumpTable(v, depth+1)
-        else
-            print(string.rep("  ", depth)..k..": ",v)
-        end
-    end
 end
 
 Addon:OnLoad()
