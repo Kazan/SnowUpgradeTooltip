@@ -1,8 +1,8 @@
 if Addon == nil then Addon = {} end
 
-local function OnTooltipSetItem(tooltip, data)
+local function OnTooltipSetItem(tooltip, _)
     if tooltip == GameTooltip then
-        Addon:addUpgradeInfo()
+        Addon:addUpgradeInfo(tooltip)
     end
 end
 
@@ -10,13 +10,13 @@ function Addon:OnLoad()
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, OnTooltipSetItem)
 end
 
-function Addon:addUpgradeInfo()
+function Addon:addUpgradeInfo(tooltip)
     local clipAfter = string.find(ITEM_UPGRADE_TOOLTIP_FORMAT, "%%d") -1
     local searchValue = string.sub(ITEM_UPGRADE_TOOLTIP_FORMAT, 1, clipAfter)
-    local ttname = GameTooltip:GetName()
-    local item, itemLink = GameTooltip:GetItem()
+    local ttname = tooltip:GetName()
+    local item, itemLink = tooltip:GetItem()
 
-    for i = 1, GameTooltip:NumLines() do
+    for i = 1, tooltip:NumLines() do
         local left = _G[ttname .. "TextLeft" .. i]
         local text = left:GetText()
         if text:find(searchValue) then
@@ -85,18 +85,18 @@ function Addon:colorize(text, color)
 end
 
 function Addon:dumpTable(table, depth)
-  if (depth > 200) then
-    print("Error: Depth > 200 in dumpTable()")
-    return
-  end
-  for k,v in pairs(table) do
-    if (type(v) == "table") then
-      print(string.rep("  ", depth)..k..":")
-      self:dumpTable(v, depth+1)
-    else
-      print(string.rep("  ", depth)..k..": ",v)
+    if (depth > 200) then
+        print("Error: Depth > 200 in dumpTable()")
+        return
     end
-  end
+    for k,v in pairs(table) do
+        if (type(v) == "table") then
+            print(string.rep("  ", depth)..k..":")
+            self:dumpTable(v, depth+1)
+        else
+            print(string.rep("  ", depth)..k..": ",v)
+        end
+    end
 end
 
 Addon:OnLoad()
